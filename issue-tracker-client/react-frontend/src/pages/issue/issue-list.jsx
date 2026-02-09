@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
 import ViewIssue from "./view-issue";
+import Layout from "../../component/layout";
 
 const IssueList = () => {
     const [issues, setIssues] = useState([]);
@@ -74,6 +75,7 @@ const IssueList = () => {
     };
 
     return (
+        <Layout>
         <div className="container">
             <div className="row mb-4">
                 <div className="col-md-12">
@@ -232,6 +234,7 @@ const IssueList = () => {
                 }} 
             />
         </div>
+        </Layout>
     );
 };
 
