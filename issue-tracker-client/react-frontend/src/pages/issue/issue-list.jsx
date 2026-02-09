@@ -3,7 +3,7 @@ import { issueList } from "../../api/issue";
 import Swal from 'sweetalert2';
 import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
-
+import ViewIssue from "./view-issue";
 
 const IssueList = () => {
     const [issues, setIssues] = useState([]);
@@ -11,6 +11,8 @@ const IssueList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState('');
+    const [selectedIssue, setSelectedIssue] = useState(null);
+    const [showViewModal, setShowViewModal] = useState(false);
     const limit = 5;
 
     const navigate = useNavigate();
@@ -56,7 +58,11 @@ const IssueList = () => {
     };
 
     const handleViewIssue = (issueId) => {
-        console.log("View issue:", issueId);
+        const issue = issues.find(i => i.id === issueId);
+        if (issue) {
+            setSelectedIssue(issue);
+            setShowViewModal(true);
+        }
     };
 
     const handleResolveIssue = (issueId) => {
@@ -216,6 +222,15 @@ const IssueList = () => {
                     )}
                 </div>
             </div>
+            
+            <ViewIssue 
+                issue={selectedIssue} 
+                show={showViewModal} 
+                onClose={() => {
+                    setShowViewModal(false);
+                    setSelectedIssue(null);
+                }} 
+            />
         </div>
     );
 };
