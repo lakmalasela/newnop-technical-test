@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { issueList } from "../../api/issue";
 import Swal from 'sweetalert2';
+import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
+import { useNavigate } from "react-router-dom";
+
 
 const IssueList = () => {
     const [issues, setIssues] = useState([]);
@@ -9,6 +12,8 @@ const IssueList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState('');
     const limit = 10;
+
+       const navigate = useNavigate();
 
     const fetchIssues = async (page = 1, searchQuery = '') => {
         setLoading(true);
@@ -49,32 +54,16 @@ const IssueList = () => {
         }
     };
 
-    const getStatusBadgeClass = (status) => {
-        switch (status?.toLowerCase()) {
-            case 'open':
-                return 'bg-success';
-            case 'closed':
-                return 'bg-danger';
-            case 'in progress':
-                return 'bg-warning';
-            default:
-                return 'bg-secondary';
-        }
+    const handleViewIssue = (issueId) => {
+        console.log("View issue:", issueId);
     };
 
-    const getPriorityBadgeClass = (priority) => {
-        switch (priority?.toLowerCase()) {
-            case 'high':
-                return 'bg-danger';
-            case 'medium':
-                return 'bg-warning';
-            case 'low':
-                return 'bg-info';
-            case 'critical':
-                return 'bg-dark';
-            default:
-                return 'bg-secondary';
-        }
+    const handleResolveIssue = (issueId) => {
+        console.log("Resolve issue:", issueId);
+    };
+
+    const handleCloseIssue = (issueId) => {
+        console.log("Close issue:", issueId);
     };
 
     return (
@@ -95,7 +84,14 @@ const IssueList = () => {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
-                        <button type="submit" className="btn btn-primary">Search</button>
+                        <div className="d-flex">
+                            <button type="submit" className="btn btn-primary">
+                                <i className="bi bi-search me-2"></i>Search
+                            </button>
+                            <button type="button" className="btn btn-success ms-3" onClick={() => navigate('/issue')}>
+                                <i className="bi bi-plus-circle me-2"></i>Create Issue
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -120,6 +116,7 @@ const IssueList = () => {
                                             <th>Priority</th>
                                             <th>Created At</th>
                                             <th>Updated At</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -144,11 +141,16 @@ const IssueList = () => {
                                                     <td>
                                                         {issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : 'N/A'}
                                                     </td>
+                                                    <td>
+                                                        <button className="btn btn-sm btn-primary" onClick={() => handleViewIssue(issue.id)}>View</button>
+                                                        <button className="btn btn-sm btn-warning" onClick={() => handleResolveIssue(issue.id)}>Resolve</button>
+                                                        <button className="btn btn-sm btn-danger" onClick={() => handleCloseIssue(issue.id)}>Close</button>
+                                                    </td>
                                                 </tr>
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="6" className="text-center">
+                                                <td colSpan="7" className="text-center">
                                                     No issues found
                                                 </td>
                                             </tr>
@@ -161,8 +163,8 @@ const IssueList = () => {
                                 <nav aria-label="Page navigation">
                                     <ul className="pagination justify-content-center">
                                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                            <button 
-                                                className="page-link" 
+                                            <button
+                                                className="page-link"
                                                 onClick={() => handlePageChange(currentPage - 1)}
                                                 disabled={currentPage === 1}
                                             >
@@ -171,8 +173,8 @@ const IssueList = () => {
                                         </li>
                                         {[...Array(totalPages)].map((_, index) => (
                                             <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                                <button 
-                                                    className="page-link" 
+                                                <button
+                                                    className="page-link"
                                                     onClick={() => handlePageChange(index + 1)}
                                                 >
                                                     {index + 1}
@@ -180,8 +182,8 @@ const IssueList = () => {
                                             </li>
                                         ))}
                                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                            <button 
-                                                className="page-link" 
+                                            <button
+                                                className="page-link"
                                                 onClick={() => handlePageChange(currentPage + 1)}
                                                 disabled={currentPage === totalPages}
                                             >

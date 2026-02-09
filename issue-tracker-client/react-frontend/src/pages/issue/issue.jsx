@@ -8,7 +8,8 @@ import Swal from 'sweetalert2';
 const Issue = () => {
 
 
-        const priorities = [{id:1,name:'Low'},{id:2,name:'Medium'},{id:3,name:'High'},{id:4,name:'Critical'}];
+    const priorities = [{id:1,name:'Low'},{id:2,name:'Medium'},{id:3,name:'High'},{id:4,name:'Critical'}];
+    const navigate = useNavigate();
 
     return (
         <div className="container">
@@ -64,7 +65,7 @@ const Issue = () => {
                         });
                     }
                     setSubmitting(false);
-                    // navigate('/login')
+                    navigate('/issue-list')
                 }}
 
             >
