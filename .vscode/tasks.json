@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start:dev",
+			"path": "nest-jwt-rbac",
+			"problemMatcher": [],
+			"label": "npm: start:dev - nest-jwt-rbac",
+			"detail": "nest start --watch"
+		}
+	]
+}
