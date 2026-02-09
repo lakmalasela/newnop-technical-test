@@ -16,44 +16,51 @@ const ViewIssue = ({ issue, onClose, show }) => {
                     <div className="modal-body">
                         <div className="row">
                             <div className="col-md-12">
-                                <h4 className="mb-3">{issue.title}</h4>
+                                <h4 className="mb-4 text-primary">{issue.title}</h4>
                             </div>
                         </div>
                         
-                        <div className="row mb-3">
-                            <div className="col-md-4">
-                                <strong>Status:</strong>
-                                <span className={`badge ms-2 ${getStatusBadgeClass(issue.status)}`}>
-                                    {issue.status}
-                                </span>
-                            </div>
-                            <div className="col-md-4">
-                                <strong>Priority:</strong>
-                                <span className={`badge ms-2 ${getPriorityBadgeClass(issue.priority)}`}>
-                                    {issue.priority}
-                                </span>
-                            </div>
-                            <div className="col-md-4">
-                                 <div className="col-md-12">
-                                <strong>Description:</strong>
-                                <p className="">{issue.description}</p>
-                            </div>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col-md-6">
-                                <strong>Created At:</strong>
-                                <p className="text-muted">
-                                    {issue.createdAt ? new Date(issue.createdAt).toLocaleString() : 'N/A'}
-                                </p>
-                            </div>
-                            <div className="col-md-6">
-                                <strong>Updated At:</strong>
-                                <p className="text-muted">
-                                    {issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : 'N/A'}
-                                </p>
-                            </div>
+                        <div className="table-responsive mb-4">
+                            <table className="table table-bordered table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th className="bg-light" style={{width: '30%'}}>Status:</th>
+                                        <td>
+                                            <span className={`badge ${getStatusBadgeClass(issue.status)}`}>
+                                                {issue.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="bg-light">Priority:</th>
+                                        <td>
+                                            <span className={`badge ${getPriorityBadgeClass(issue.priority)}`}>
+                                                {issue.priority}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="bg-light align-top">Description:</th>
+                                        <td className="text-muted">
+                                            {issue.description || 'No description provided'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="bg-light">Created At:</th>
+                                        <td className="text-muted">
+                                            <i className="bi bi-calendar-plus me-1"></i>
+                                            {issue.createdAt ? new Date(issue.createdAt).toLocaleString() : 'N/A'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="bg-light">Updated At:</th>
+                                        <td className="text-muted">
+                                            <i className="bi bi-calendar-check me-1"></i>
+                                            {issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : 'N/A'}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div className="modal-footer">
