@@ -9,14 +9,17 @@ const getAuthHeaders = () => ({
     }
 });
 
+//create issue
 export const createIssue = (data)=>{
      return axios.post (`${API_URL}/isssue`,data, getAuthHeaders());
 }
 
+//update issue
 export const updateIssue = (data,id)=>{
      return axios.put (`${API_URL}/isssue/${id}`,data, getAuthHeaders());
 }
 
+//get issue list
 export const issueList = (search, page, limit)=>{
      return axios.get(`${API_URL}/isssue`,{
         params: { search, page, limit },
@@ -24,18 +27,13 @@ export const issueList = (search, page, limit)=>{
     });
 }
 
+//get issue by id
 export const getIssueById = (id)=>{
      return axios.get(`${API_URL}/isssue/${id}`, getAuthHeaders());
 }
 
+//update issue status
 export const updateIssueStatus = (id, status)=>{
      return axios.patch(`${API_URL}/isssue/${id}/status`, { status }, getAuthHeaders());
 }
 
-export const login = (data)=>{
-    return axios.post(`${API_URL}/auth/login`,data)
-}
-
-export const users = ()=>{
-     return axios.get(`${API_URL}/user/list`, getAuthHeaders());
-}

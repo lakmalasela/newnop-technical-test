@@ -15,7 +15,7 @@ const IssueList = () => {
 
     const navigate = useNavigate();
 
-    const fetchIssues = async (page = 1, searchQuery = '') => {
+    const fetchIssueList = async (page = 1, searchQuery = '') => {
         setLoading(true);
         try {
             const response = await issueList(searchQuery, page, limit);
@@ -23,7 +23,6 @@ const IssueList = () => {
                 setIssues(response.data.data.data || []);
                 const total = response.data.data.total || 0;
                 const calculatedTotalPages = Math.ceil(total / limit);
-                console.log('Total items:', total, 'Limit:', limit, 'Calculated totalPages:', calculatedTotalPages);
                 setTotalPages(calculatedTotalPages);
                 setCurrentPage(response.data.data.page || 1);
             }
@@ -41,13 +40,13 @@ const IssueList = () => {
     };
 
     useEffect(() => {
-        fetchIssues(currentPage, search);
+        fetchIssueList(currentPage, search);
     }, [currentPage, search]);
 
     const handleSearch = (e) => {
         e.preventDefault();
         setCurrentPage(1);
-        fetchIssues(1, search);
+        fetchIssueList(1, search);
     };
 
     const handlePageChange = (page) => {
