@@ -25,6 +25,7 @@ const Dashboard = () => {
                             <h4>Welcome!</h4>
                             <p>Email: <strong>{user.email}</strong></p>
                             <NavLink to='/user-list'>User List</NavLink>
+                            <NavLink to='/issue-list'>Issue List</NavLink>
                         </div>
                     ) : (
                         <div className="alert alert-warning">
