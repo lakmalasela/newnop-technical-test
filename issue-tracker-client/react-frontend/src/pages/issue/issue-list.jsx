@@ -11,9 +11,9 @@ const IssueList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState('');
-    const limit = 10;
+    const limit = 5;
 
-       const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const fetchIssues = async (page = 1, searchQuery = '') => {
         setLoading(true);
@@ -22,7 +22,9 @@ const IssueList = () => {
             if (response.data && response.data.data) {
                 setIssues(response.data.data.data || []);
                 const total = response.data.data.total || 0;
-                setTotalPages(Math.ceil(total / limit));
+                const calculatedTotalPages = Math.ceil(total / limit);
+                console.log('Total items:', total, 'Limit:', limit, 'Calculated totalPages:', calculatedTotalPages);
+                setTotalPages(calculatedTotalPages);
                 setCurrentPage(response.data.data.page || 1);
             }
         } catch (error) {
@@ -159,36 +161,54 @@ const IssueList = () => {
                                 </table>
                             </div>
 
-                            {totalPages > 1 && (
-                                <nav aria-label="Page navigation">
-                                    <ul className="pagination justify-content-center">
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <small className="text-muted">
+                                        Showing {issues.length} of {totalPages * limit} items | Page {currentPage} of {totalPages}
+                                    </small>
+                                </div>
+                            </div>
+
+                            {totalPages >= 1 && (
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination">
                                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                            <button
-                                                className="page-link"
-                                                onClick={() => handlePageChange(currentPage - 1)}
-                                                disabled={currentPage === 1}
+                                            <a 
+                                                className="page-link" 
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handlePageChange(currentPage - 1);
+                                                }}
                                             >
                                                 Previous
-                                            </button>
+                                            </a>
                                         </li>
                                         {[...Array(totalPages)].map((_, index) => (
                                             <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                                <button
-                                                    className="page-link"
-                                                    onClick={() => handlePageChange(index + 1)}
+                                                <a 
+                                                    className="page-link" 
+                                                    href="#"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handlePageChange(index + 1);
+                                                    }}
                                                 >
                                                     {index + 1}
-                                                </button>
+                                                </a>
                                             </li>
                                         ))}
                                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                            <button
-                                                className="page-link"
-                                                onClick={() => handlePageChange(currentPage + 1)}
-                                                disabled={currentPage === totalPages}
+                                            <a 
+                                                className="page-link" 
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handlePageChange(currentPage + 1);
+                                                }}
                                             >
                                                 Next
-                                            </button>
+                                            </a>
                                         </li>
                                     </ul>
                                 </nav>

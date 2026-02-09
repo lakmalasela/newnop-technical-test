@@ -9,7 +9,7 @@ import { CommonException } from 'src/common/exception/common.exception';
 import { UpdateIssueDto } from './dto/update-issue.dto';
 import { HttpStatus } from '@nestjs/common';
 import { IssueStatus } from './enum/Issue-status.enum';
-import { Like } from 'typeorm';
+import { Like, And, Or } from 'typeorm';
 import { UserEntity } from 'src/users/entity/user.entity';
 @Injectable()
 export class IssueService {
@@ -40,14 +40,17 @@ export class IssueService {
             
             const skip = (currentPage - 1) * currentPageSize;
             
-            const whereCondition: any = {};
+            let searchCriteria: any = {};   
 
             if (search) {
-                whereCondition.title = Like(`%${search}%`);
+                searchCriteria = [
+                    { title: Like(`%${search}%`) },
+                    { priority: Like(`%${search}%`) }
+                ];
             }
 
             const [issues, total] = await this.Issuerepository.findAndCount({
-                where: whereCondition,
+                where: searchCriteria,
                 order: {
                     [sortField]: order
                 },
