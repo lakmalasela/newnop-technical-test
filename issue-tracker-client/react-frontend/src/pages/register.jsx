@@ -2,6 +2,7 @@ import { use, useState } from "react";
 import { registerUser } from "../api/auth";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'Yup';
+import Swal from 'sweetalert2';
 const Register = () => {
 
     // const[form,setForm] = useState({
@@ -50,15 +51,41 @@ const Register = () => {
 
                 })}
 
-                onSubmit={async (values, { setSubmitting, restForm }) => {
+                onSubmit={async (values, { setSubmitting, resetForm }) => {
                     try {
-                        console.log("values are ",values);
+                        console.log("values are ", values);
                         
-                        await registerUser(values);
-                        alert("User Created Succsfully");
-                        restForm();
+                        const response = await registerUser(values);
+                        console.log("Response:", response);
+                        
+                        if (response.data && response.message && response.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'User Created Successfully',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'User Created Successfully',
+                                text: 'The user has been created successfully!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                        resetForm();
                     } catch (error) {
-                        alert(error.response?.data?.message || 'Create User Failed');
+                        console.error("Registration error:", error);
+                        console.error("Error response:", error.response);
+                        
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'User Creation Failed',
+                            text: error.response?.data?.message || 'Create User Failed',
+                            confirmButtonColor: '#00bcd4'
+                        });
                     }
                     setSubmitting(false);
                 }}
