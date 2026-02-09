@@ -54,9 +54,27 @@ export class UserService {
     }
 
 
-    async GetAll():Promise<UserEntity[]>{
+    async GetAll(
+        page?: number,
+        limit?: number
+    ): Promise<{data: UserEntity[], total: number, page: number, limit: number}>{
         try{
-            return await this.userRepository.find();
+            const currentPage = page || 1;
+            const currentPageSize = limit || 10;
+            
+            const skip = (currentPage - 1) * currentPageSize;
+
+            const [users, total] = await this.userRepository.findAndCount({
+                skip: skip,
+                take: currentPageSize
+            });
+
+            return {
+                data: users,
+                total,
+                page: currentPage,
+                limit: currentPageSize
+            };
         }catch(error){
             throw new InternalServerErrorException;
         }

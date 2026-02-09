@@ -2,7 +2,7 @@
 https://docs.nestjs.com/controllers#controllers
 */
 
-import { Controller,Post,Body, HttpException, HttpStatus, Get } from '@nestjs/common';
+import { Controller,Post,Body, HttpException, HttpStatus, Get, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dto/user.dto';
@@ -13,6 +13,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/decorator/roles.decorator';
 import { RoleGuard } from 'src/auth/guard/role.guard';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { BaseResponse } from 'src/common/response/base.response';
 
 
 @Controller('user')
@@ -46,15 +47,16 @@ export class UserController {
         @Get('/list')
         @UseGuards(JwtAuthGuard,RoleGuard)
         @Roles(ROLE.ADMIN)
-        async getAllUsers():Promise<UserEntity[]>{
+        async getAllUsers(
+            @Query('page') page?: number,
+            @Query('limit') limit?: number
+        ):Promise<BaseResponse<{ data: UserEntity[]; total: number; page: number; limit: number; }>>{
 
             try{
-                return await this.userService.GetAll();
+                const result = await this.userService.GetAll(Number(page) || 1, Number(limit) || 10);
+                return new BaseResponse(true, 'User List', result);
             }catch(error){
-                throw new HttpException(
-                    error.message,
-                    error.status || HttpStatus.UNAUTHORIZED
-                )
+                return new BaseResponse(false, error.message);
             }
             
         }
