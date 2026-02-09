@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {users} from "../../api/auth";
 import Layout from "../../component/layout";
+import Pagination from "../../component/pagination";
 
 const UserList = ()=>{
 
@@ -32,14 +33,6 @@ const UserList = ()=>{
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-  };
-
-  const renderPagination = () => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
-    }
-    return pages;
   };
 
     return(
@@ -86,43 +79,14 @@ const UserList = ()=>{
                 </div>
 
                 {/* Pagination */}
-                <div className="d-flex justify-content-between align-items-center mt-4">
-                    <div className="text-muted">
-                        Showing {userList.length} of {totalUsers} users
-                    </div>
-                    <nav>
-                        <ul className="pagination mb-0">
-                            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                <button 
-                                    className="page-link" 
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                >
-                                    Previous
-                                </button>
-                            </li>
-                            {renderPagination().map((page) => (
-                                <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
-                                    <button 
-                                        className="page-link" 
-                                        onClick={() => handlePageChange(page)}
-                                    >
-                                        {page}
-                                    </button>
-                                </li>
-                            ))}
-                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                <button 
-                                    className="page-link" 
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={currentPage === totalPages}
-                                >
-                                    Next
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                <Pagination 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    showing={userList.length}
+                    total={totalUsers}
+                    itemName="users"
+                />
             </div>
         </Layout>
     )

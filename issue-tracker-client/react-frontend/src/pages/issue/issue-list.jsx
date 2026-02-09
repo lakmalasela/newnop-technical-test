@@ -5,6 +5,7 @@ import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
 import ViewIssue from "./view-issue";
 import Layout from "../../component/layout";
+import Pagination from "../../component/pagination";
 
 const IssueList = () => {
     const [issues, setIssues] = useState([]);
@@ -176,50 +177,14 @@ const IssueList = () => {
                                 </div>
                             </div>
 
-                            {totalPages >= 1 && (
-                                <nav aria-label="Page navigation example">
-                                    <ul className="pagination">
-                                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                            <a 
-                                                className="page-link" 
-                                                href="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    handlePageChange(currentPage - 1);
-                                                }}
-                                            >
-                                                Previous
-                                            </a>
-                                        </li>
-                                        {[...Array(totalPages)].map((_, index) => (
-                                            <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                                <a 
-                                                    className="page-link" 
-                                                    href="#"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        handlePageChange(index + 1);
-                                                    }}
-                                                >
-                                                    {index + 1}
-                                                </a>
-                                            </li>
-                                        ))}
-                                        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                            <a 
-                                                className="page-link" 
-                                                href="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    handlePageChange(currentPage + 1);
-                                                }}
-                                            >
-                                                Next
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            )}
+                            <Pagination 
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                                showing={issues.length}
+                                total={totalPages * limit}
+                                itemName="issues"
+                            />
                         </>
                     )}
                 </div>
