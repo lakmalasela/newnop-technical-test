@@ -18,7 +18,7 @@ const UserList = ()=>{
 
    const loadUser = async (page = 1) => {
     try {
-      const response = await users(page, limit);
+      const response = await users('', page, limit);
       console.log('API Response:', response.data); // Debug log
       console.log('Users array:', response.data.data.data); // Debug users array
       setUserList(response.data.data.data || []);
