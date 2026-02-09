@@ -4,4 +4,6 @@ export class IssueResponse {
   description?: string;
   status: string;
   priority: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

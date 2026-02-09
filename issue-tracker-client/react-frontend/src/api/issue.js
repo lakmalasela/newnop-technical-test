@@ -17,7 +17,7 @@ export const updateIssue = (data,id)=>{
      return axios.put (`${API_URL}/isssue/${id}`,data, getAuthHeaders());
 }
 
-export const getIssues = (search, page, limit)=>{
+export const issueList = (search, page, limit)=>{
      return axios.get(`${API_URL}/isssue`,{
         params: { search, page, limit },
         ...getAuthHeaders()

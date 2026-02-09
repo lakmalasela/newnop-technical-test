@@ -16,6 +16,8 @@ export class IssueMapper {
       description: entity.description,
       status: entity.status,
       priority: entity.priority,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
     };
   }
 

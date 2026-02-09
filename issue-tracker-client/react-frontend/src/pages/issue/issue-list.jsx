@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getIssues } from "../../api/issue";
+import { issueList } from "../../api/issue";
 import Swal from 'sweetalert2';
 
 const IssueList = () => {
@@ -13,11 +13,12 @@ const IssueList = () => {
     const fetchIssues = async (page = 1, searchQuery = '') => {
         setLoading(true);
         try {
-            const response = await getIssues(searchQuery, page, limit);
+            const response = await issueList(searchQuery, page, limit);
             if (response.data && response.data.data) {
-                setIssues(response.data.data.issues || []);
-                setTotalPages(response.data.data.totalPages || 1);
-                setCurrentPage(response.data.data.currentPage || 1);
+                setIssues(response.data.data.data || []);
+                const total = response.data.data.total || 0;
+                setTotalPages(Math.ceil(total / limit));
+                setCurrentPage(response.data.data.page || 1);
             }
         } catch (error) {
             console.error("Error fetching issues:", error);
@@ -34,7 +35,7 @@ const IssueList = () => {
 
     useEffect(() => {
         fetchIssues(currentPage, search);
-    }, [currentPage]);
+    }, [currentPage, search]);
 
     const handleSearch = (e) => {
         e.preventDefault();
