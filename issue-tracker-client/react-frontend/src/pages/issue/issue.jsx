@@ -21,10 +21,11 @@ const Issue = () => {
 
             <Formik
 
-                initialValues={{ email: '', password: '', role: priorities[0].name }}
+                initialValues={{ title: '', description: '', priority: priorities[0].id }}
                 validationSchema={Yup.object({
-                    email: Yup.string().email("Please enter a valid email address").required("Email is required"),
-                    password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+                    title: Yup.string().required("Title is required"),
+                    description: Yup.string().required("Description is required"),
+                    priority: Yup.number().required("Priority is required")
 
                 })}
 
