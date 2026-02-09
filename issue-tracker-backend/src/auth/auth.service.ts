@@ -37,7 +37,7 @@ async login(user:{id:string,email:string,role:string}){
             role:user.role
         };
 
-        return {access_token: this.jwtService.sign(payload),userEmail:payload.email,userId:payload.sub};
+        return {access_token: this.jwtService.sign(payload),userEmail:payload.email,userId:payload.sub,role:payload.role};
 
 
     }catch(error){

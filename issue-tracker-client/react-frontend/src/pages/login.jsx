@@ -31,6 +31,7 @@ const Login = () => {
             const res = await login(form);
             const token = res.data.access_token;
             localStorage.setItem('token', token)
+            localStorage.setItem('userId', res.data.userId)
             setUser({ email: form.email });
             SetMessage("Login Successfully");
             navigate('/dashboard')

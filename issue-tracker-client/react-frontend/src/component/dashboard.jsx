@@ -4,7 +4,8 @@ const Dashboard = ()=>{
 
     const navigate = useNavigate();
     const logOut = ()=>{
-        localStorage.removeItem(token);
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
         alert("Log Out Successfully")
         navigate('/login');
     }
