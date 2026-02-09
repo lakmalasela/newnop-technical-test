@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import { login } from "../api/auth";
+import { login } from "../../api/auth";
 import { Form, Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'Yup';
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/auth-provider";
+import { AuthContext } from "../../context/auth-provider";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../context/auth-provider";
+import { AuthContext } from "../../context/auth-provider";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {

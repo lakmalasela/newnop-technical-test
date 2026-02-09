@@ -1,5 +1,5 @@
 import { use, useState } from "react";
-import { createIssue } from "../api/issue";
+import { createIssue } from "../../api/issue";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'Yup';
 import { useNavigate } from "react-router-dom";

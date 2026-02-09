@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { users } from "../api/auth";
+import {users} from "../../api/auth";
 
 const UserList = ()=>{
 

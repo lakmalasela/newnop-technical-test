@@ -1,5 +1,5 @@
 import { use, useState } from "react";
-import { registerUser } from "../api/auth";
+import { registerUser } from "../../api/auth";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'Yup';
 import { useNavigate } from "react-router-dom";
