@@ -30,8 +30,9 @@ const Login = () => {
 
             const res = await login(form);
             const token = res.data.access_token;
+            const userId = res.data.userId;
             localStorage.setItem('token', token)
-            localStorage.setItem('userId', res.data.userId)
+            localStorage.setItem('userId', userId)
             setUser({ email: form.email });
             SetMessage("Login Successfully");
             navigate('/dashboard')
@@ -55,7 +56,9 @@ const Login = () => {
                     try {
                         const res = await login(value);
                         const token = res.data.access_token;
+                        const userId = res.data.userId;
                         localStorage.setItem('token', token);
+                        localStorage.setItem('userId', userId);
                         setUser({ email: res.data.userEmail });
                         Swal.fire({
                             icon: 'success',

@@ -7,8 +7,9 @@ const Dashboard = () => {
 
     return (
        
+        <Layout>
             <div className="container">
-                 <Layout/>
+                
                 {user ? (
                     <div className="alert alert-info mt-3">
                         <h4>Welcome!</h4>
@@ -20,6 +21,7 @@ const Dashboard = () => {
                     </div>
                 )}
             </div>
+            </Layout>
       
     );
 };
