@@ -18,7 +18,8 @@ const Dashboard = () => {
                 <div className="col-md-12">
                     <h2>Dashboard</h2>
                     <button onClick={handleLogout}>Logout</button>
-                    <NavLink to='/register'>Register</NavLink>
+                    <NavLink to='/register'>Register User</NavLink>
+                    <NavLink to='/issue'>Create Issue</NavLink>
                     {user ? (
                         <div className="alert alert-info">
                             <h4>Welcome!</h4>
