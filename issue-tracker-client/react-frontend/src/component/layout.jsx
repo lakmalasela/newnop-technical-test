@@ -24,9 +24,8 @@ const Layout = ({ children }) => {
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/register">Register User</NavLink>
                             </li>
-                            {user && (
-                                <>
-                                    <li className="nav-item">
+
+                             <li className="nav-item">
                                         <NavLink className="nav-link" to="/user-list">User List</NavLink>
                                     </li>
                                     <li className="nav-item">
@@ -35,8 +34,11 @@ const Layout = ({ children }) => {
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/issue-list">Issue List</NavLink>
                                     </li>
+                            {/* {user && (
+                                <>
+                                   
                                 </>
-                            )}
+                            )} */}
                             <li className="nav-item">
                                 <button className="btn btn-outline-light btn-sm ms-2" onClick={handleLogout}>Log Out</button>
                             </li>

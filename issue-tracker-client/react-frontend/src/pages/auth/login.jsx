@@ -24,23 +24,6 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const hadleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-
-            const res = await login(form);
-            const token = res.data.access_token;
-            const userId = res.data.userId;
-            localStorage.setItem('token', token)
-            localStorage.setItem('userId', userId)
-            setUser({ email: form.email });
-            SetMessage("Login Successfully");
-            navigate('/dashboard')
-        } catch (error) {
-
-            SetMessage(error.response?.data?.message || "Login Unsuccssfully");
-        }
-    }
 
     return (
         <div className="container">
@@ -57,9 +40,11 @@ const Login = () => {
                         const res = await login(value);
                         const token = res.data.access_token;
                         const userId = res.data.userId;
+                        const userEmail = res.data.userEmail || value.email;
                         localStorage.setItem('token', token);
                         localStorage.setItem('userId', userId);
-                        setUser({ email: res.data.userEmail });
+                        localStorage.setItem('userEmail', userEmail);
+                        setUser({ email: userEmail });
                         Swal.fire({
                             icon: 'success',
                             title: 'Login Successful',
