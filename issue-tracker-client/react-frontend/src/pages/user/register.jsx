@@ -4,7 +4,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'Yup';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
-import NavBar from '../../component/nav-bar';
 import issueTrackerImage from '../../img/issue-tracker.jpg';   
 const Register = () => {
 
@@ -14,7 +13,6 @@ const Register = () => {
     const navigate = useNavigate();
 
     return (
-        <NavBar>
         <div className="container-fluid min-vh-100 p-0">
             <div className="row g-0 min-vh-100">
                 {/* Cover Image Section */}
@@ -147,7 +145,7 @@ const Register = () => {
                 </div>
             </div>
         </div>
-        </NavBar>
+      
     )
 
 }

@@ -41,9 +41,7 @@ const NavBar = ({ children }) => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="/register">Register User</NavLink>
-                            </li>
+                      
 
                             {user && user.role === 'ADMIN' && (
                                 <li className="nav-item">
