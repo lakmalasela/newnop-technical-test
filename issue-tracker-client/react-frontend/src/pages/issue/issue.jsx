@@ -49,6 +49,7 @@ const Issue = () => {
     };
 
     return (
+        <NavBar>
         <div className="container-fluid min-vh-100 p-0">
             <div className="row g-0 min-vh-100">
                 {/* Cover Image Section */}
@@ -212,6 +213,7 @@ const Issue = () => {
                 </div>
             </div>
         </div>
+        </NavBar>
     );
 };
 export default Issue;
