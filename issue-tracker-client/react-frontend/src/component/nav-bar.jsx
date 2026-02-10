@@ -14,6 +14,15 @@ const NavBar = ({ children }) => {
         navigate('/login');
     }
 
+    // Don't render navigation if user is not logged in
+    if (!user) {
+        return (
+            <div style={{paddingTop: '70px'}}>
+                {children}
+            </div>
+        );
+    }
+
     return (
         <div className="min-vh-100">
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
