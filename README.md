@@ -2,7 +2,7 @@
 
 A full-stack issue tracking system with role-based access control, built with NestJS backend and React frontend.
 
-## 🚀 Features
+##  Features
 
 ### Core Functionality
 - **User Authentication**: Secure JWT-based login/registration system
@@ -18,7 +18,7 @@ A full-stack issue tracking system with role-based access control, built with Ne
 - **Error Handling**: Comprehensive error management
 - **Security**: Password hashing, JWT tokens, and input sanitization
 
-## 🏗️ Architecture
+##  Architecture
 
 ### Backend (NestJS)
 - **Framework**: NestJS with TypeScript
@@ -36,7 +36,7 @@ A full-stack issue tracking system with role-based access control, built with Ne
 - **Icons**: Font Awesome
 - **Notifications**: SweetAlert2
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 Issue-tracker/
@@ -62,7 +62,7 @@ Issue-tracker/
 └── README.md                 # This file
 ```
 
-## 🛠️ Installation & Setup
+##  Installation & Setup
 
 ### Prerequisites
 - Node.js (v18 or higher)
@@ -109,7 +109,7 @@ CREATE DATABASE issue_tracker;
 
 The application will automatically create tables on first run.
 
-## 🚀 Running the Application
+##  Running the Application
 
 ### Development Mode
 
@@ -143,7 +143,7 @@ npm run build
 npm run preview
 ```
 
-## 📚 API Documentation
+##  API Documentation
 
 ### Authentication Endpoints
 - `POST /auth/register` - Register new user
@@ -159,7 +159,7 @@ npm run preview
 - `POST /issues` - Create new issue
 - `PUT /issues/:id` - Update issue
 
-## 🔐 Authentication & Authorization
+##  Authentication & Authorization
 
 ### User Roles
 - **User**: Can view/create/update their own issues
@@ -170,7 +170,7 @@ npm run preview
 - Include token in `Authorization: Bearer <token>` header
 - Default token expiration: 24 hours
 
-## 🎯 Key Features in Detail
+##  Key Features in Detail
 
 ### Issue Management
 - **Create Issues**: Title, description, priority, and assignment

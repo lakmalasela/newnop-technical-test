@@ -6,7 +6,7 @@
 
 A comprehensive **NestJS-based backend API** built on **Express.js** for issue tracking with JWT authentication and role-based access control (RBAC).
 
-## 🚀 Features
+##  Features
 
 - **Express.js-powered REST API** using NestJS framework
 - **JWT Authentication** with secure token-based auth
@@ -17,7 +17,7 @@ A comprehensive **NestJS-based backend API** built on **Express.js** for issue t
 - **Input Validation** and error handling
 - **CORS Support** for frontend integration
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 - **Framework**: NestJS (built on Express.js)
 - **Database**: MySQL with TypeORM
@@ -27,7 +27,7 @@ A comprehensive **NestJS-based backend API** built on **Express.js** for issue t
 - **Configuration**: @nestjs/config
 - **Language**: TypeScript
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 src/
@@ -58,7 +58,7 @@ src/
 └── decorator/            # Custom decorators
 ```
 
-## 🔧 Environment Setup
+##  Environment Setup
 
 ### Prerequisites
 - Node.js (v18 or higher)
@@ -94,7 +94,7 @@ CREATE DATABASE issue_tracker;
 
 2. The application will automatically create tables using TypeORM synchronization.
 
-## 🚀 Installation & Running
+##  Installation & Running
 
 ### Install Dependencies
 ```bash
@@ -112,7 +112,7 @@ npm run build
 npm run start:prod
 ```
 
-## 📡 API Endpoints
+##  API Endpoints
 
 ### Authentication
 
@@ -234,7 +234,7 @@ Mark issue as resolved or closed.
 #### DELETE /issues/:id
 Delete issue (Admin only).
 
-## 🔐 Authentication & Security
+##  Authentication & Security
 
 ### JWT Authentication
 - Users receive JWT tokens upon login
@@ -265,7 +265,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## 📊 Data Models
+##  Data Models
 
 ### User Entity
 ```typescript
@@ -316,20 +316,6 @@ The API returns standard HTTP status codes with consistent error responses:
 }
 ```
 
-## 🚀 Deployment
-
-### Docker Deployment
-Create a `Dockerfile`:
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "run", "start:prod"]
-```
 
 ### Production Considerations
 - Use different `.env` files for development, staging, and production
@@ -338,7 +324,7 @@ CMD ["npm", "run", "start:prod"]
 - Disable database synchronization in production
 - Implement proper logging and monitoring
 
-## 🌐 CORS Configuration
+##  CORS Configuration
 
 The Express.js server is configured with CORS support for frontend integration:
 
@@ -350,8 +336,6 @@ app.enableCors({
   credentials: true,
 });
 ```
-
-## 📝 Development Notes
 
 ### Code Style
 - ESLint for linting
@@ -368,16 +352,6 @@ app.enableCors({
 7. Add comprehensive error logging
 8. Implement caching for frequently accessed data
 
-## 🤝 Contributing
-
-1. Follow the existing code style
-2. Write tests for new features
-3. Update documentation for API changes
-4. Use semantic versioning for releases
-
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## 🔗 Additional Resources
 

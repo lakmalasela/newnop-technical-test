@@ -287,7 +287,6 @@ const issueValidationSchema = Yup.object({
 - Integration tests for API calls
 - End-to-end tests with Cypress or Playwright
 
-## Deployment
 
 ### Build Process
 ```bash

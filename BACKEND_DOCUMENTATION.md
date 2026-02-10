@@ -2,16 +2,17 @@
 
 ## Overview
 
-This is a NestJS-based backend API for an issue tracking system with JWT authentication and role-based access control (RBAC). The system supports user management, issue tracking, and admin-only access to user lists.
+This is a **NestJS-based backend API built on Express.js** for an issue tracking system with JWT authentication and role-based access control (RBAC). The system supports user management, comprehensive issue tracking with full CRUD operations, and admin-only access to user lists.
 
 ## Tech Stack
 
-- **Framework**: NestJS
+- **Framework**: NestJS (built on Express.js)
 - **Database**: MySQL with TypeORM
 - **Authentication**: JWT with Passport
 - **Password Hashing**: bcrypt
 - **Validation**: class-validator and class-transformer
 - **Configuration**: @nestjs/config
+- **Language**: TypeScript
 
 ## Project Structure
 
@@ -20,27 +21,32 @@ src/
 ├── app.module.ts          # Main application module
 ├── app.controller.ts      # Root controller
 ├── app.service.ts         # Root service
-├── main.ts               # Application entry point
+├── main.ts               # Express.js application entry point
 ├── auth/                 # Authentication module
 │   ├── auth.controller.ts
 │   ├── auth.module.ts
 │   ├── auth.service.ts
 │   ├── dto/
+│   ├── guard/
 │   └── strategies/
 ├── users/                # User management module
 │   ├── users.controller.ts
 │   ├── users.module.ts
 │   ├── users.service.ts
+│   ├── dto/
 │   └── entities/
 ├── issues/               # Issue tracking module
 │   ├── issues.controller.ts
 │   ├── issues.module.ts
 │   ├── issues.service.ts
 │   ├── dto/
-│   └── entities/
+│   ├── entities/
+│   ├── enum/
+│   └── mapper/
 ├── common/               # Common utilities
 │   ├── guards/
-│   └── decorators/
+│   ├── response/
+│   └── exception/
 └── decorator/            # Custom decorators
 ```
 
@@ -178,30 +184,123 @@ Delete user (Admin only).
 ### Issues
 
 #### GET /issues
-Get all issues (authenticated users).
+Get all issues with pagination and search (authenticated users).
+
+**Query Parameters:**
+- `search` (optional): Search by title or description
+- `page` (optional): Page number (default: 1)
+- `limit` (optional): Items per page (default: 10)
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Issue List",
+  "data": {
+    "data": [
+      {
+        "id": "number",
+        "title": "string",
+        "description": "string",
+        "priority": "string",
+        "status": "string",
+        "createdBy": {
+          "id": "number",
+          "username": "string"
+        },
+        "createdAt": "datetime"
+      }
+    ],
+    "total": "number",
+    "page": "number",
+    "limit": "number"
+  }
+}
+```
 
 #### GET /issues/:id
 Get issue by ID.
 
+**Headers:** `Authorization: Bearer <token>`
+
 #### POST /issues
-Create new issue (authenticated users).
+**Create new issue** (authenticated users).
+
+**Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
 ```json
 {
   "title": "string",
   "description": "string",
-  "priority": "low" | "medium" | "high",
-  "status": "open" | "in_progress" | "resolved" | "closed",
-  "assignedUserId": "number"
+  "priority": "low" | "medium" | "high"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Issue Created",
+  "data": {
+    "id": "number",
+    "title": "string",
+    "description": "string",
+    "priority": "string",
+    "status": "open",
+    "createdBy": {
+      "id": "number",
+      "username": "string"
+    },
+    "createdAt": "datetime"
+  }
 }
 ```
 
 #### PUT /issues/:id
 Update issue (Admin or assigned user).
 
+**Headers:** `Authorization: Bearer <token>`
+
+**Request Body:**
+```json
+{
+  "title": "string",
+  "description": "string",
+  "priority": "low" | "medium" | "high"
+}
+```
+
+#### PATCH /issues/:id/status
+Mark issue as resolved or closed.
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Request Body:**
+```json
+{
+  "status": "resolved" | "closed"
+}
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Issue marked as Resolved",
+  "data": {
+    "id": "number",
+    "status": "resolved",
+    "updatedAt": "datetime"
+  }
+}
+```
+
 #### DELETE /issues/:id
 Delete issue (Admin only).
+
+**Headers:** `Authorization: Bearer <token>`
 
 ## Authentication & Authorization
 
@@ -264,11 +363,45 @@ The API returns standard HTTP status codes with error messages:
 **Error Response Format:**
 ```json
 {
-  "statusCode": "number",
-  "message": "string",
-  "error": "string"
+  "success": false,
+  "message": "Error description",
+  "data": null
 }
 ```
+
+## Express.js Server Configuration
+
+### Server Setup
+The Express.js server is configured in `main.ts` with the following features:
+
+```typescript
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // Enable CORS for frontend integration
+  app.enableCors({
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  });
+  
+  // Enable validation pipes globally
+  app.useGlobalPipes(new ValidationPipe());
+  
+  await app.listen(process.env.PORT ?? 3000);
+}
+```
+
+### Middleware Configuration
+- **CORS**: Configured for frontend integration
+- **Validation**: Global validation pipes for request validation
+- **Authentication**: JWT authentication guards
+- **Error Handling**: Centralized error response format
 
 ## Validation
 
@@ -283,8 +416,10 @@ Request validation is implemented using:
 - JWT token authentication
 - Role-based access control
 - Input validation and sanitization
-- CORS configuration
+- CORS configuration for frontend integration
+- Express.js security middleware
 - Rate limiting (recommended for production)
+- Request/response validation with class-validator
 
 ## Development Notes
 
@@ -299,39 +434,33 @@ Currently using `synchronize: true` for auto-schema creation. For production:
 2. Use TypeORM migrations
 3. Version control schema changes
 
-### Recommended Improvements
-1. Add email verification for registration
-2. Implement password reset functionality
-3. Add rate limiting
-4. Implement audit logging
-5. Add API documentation with Swagger
-6. Set up proper database migrations
-7. Add comprehensive error logging
-8. Implement caching for frequently accessed data
 
-## Deployment
 
-### Docker Deployment
-Create a `Dockerfile`:
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "run", "start:prod"]
-```
 
 ### Environment-Specific Configs
 - Use different `.env` files for development, staging, and production
 - Configure database connections appropriately
 - Set proper JWT secrets for each environment
 
-## Contributing
 
-1. Follow the existing code style
-2. Write tests for new features
-3. Update documentation for API changes
-4. Use semantic versioning for releases
+
+### API Response Format
+All API endpoints follow a consistent response format:
+
+**Success Response:**
+```json
+{
+  "success": true,
+  "message": "Operation completed successfully",
+  "data": { /* response data */ }
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "message": "Error description",
+  "data": null
+}
+```
