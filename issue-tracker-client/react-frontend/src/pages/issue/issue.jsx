@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'Yup';
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
+import { confirmUpdateIssue } from "../../common/swal-alerts";
 import NavBar from "../../component/nav-bar";
 
 const Issue = () => {
@@ -73,7 +74,14 @@ const Issue = () => {
                 onSubmit={async (values, { setSubmitting, resetForm }) => {
                     try {
                         let response;
+                        
+                        // Show confirmation dialog only for editing
                         if (isEditing) {
+                            const result = await confirmUpdateIssue();
+                            if (!result.isConfirmed) {
+                                setSubmitting(false);
+                                return;
+                            }
                             response = await updateIssue(values, id);
                         } else {
                             response = await createIssue(values);
@@ -98,6 +106,7 @@ const Issue = () => {
                         }
                         
                         resetForm();
+                        navigate('/issue-list');
                     } catch (error) {
                         console.error('Error saving issue:', error);
                         Swal.fire({

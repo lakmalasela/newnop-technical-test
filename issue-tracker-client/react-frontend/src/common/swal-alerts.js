@@ -120,3 +120,12 @@ export const confirmDeleteIssue = async () => {
         confirmButtonText: 'Yes, delete it!'
     });
 };
+
+export const confirmUpdateIssue = async () => {
+    return await showConfirmDialog({
+        title: 'Update Issue?',
+        text: 'Are you sure you want to update this issue?',
+        icon: 'question',
+        confirmButtonText: 'Yes, update it!'
+    });
+};
