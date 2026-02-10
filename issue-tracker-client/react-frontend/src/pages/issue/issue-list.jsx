@@ -175,7 +175,12 @@ const IssueList = () => {
                                                     </td>
                                                     <td>
                                                         <button className="btn btn-sm btn-primary" onClick={() => handleViewIssue(issue.id)}>View</button>
-                                                        <button className="btn btn-sm btn-warning" onClick={() => handleResolveIssue(issue.id)}>Resolve</button>
+                                                        <button 
+                                                            className="btn btn-sm btn-warning"
+                                                            onClick={() => handleResolveIssue(issue.id)}
+                                                            disabled={issue.status === 'Resolved'}
+                                                            style={{ cursor: issue.status === 'Resolved' ? 'not-allowed' : 'pointer' }}
+                                                        >Resolve</button>
                                                         <button className="btn btn-sm btn-danger" onClick={() => handleCloseIssue(issue.id)}>Close</button>
                                                     </td>
                                                 </tr>
