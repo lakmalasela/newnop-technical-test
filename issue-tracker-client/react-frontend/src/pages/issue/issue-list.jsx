@@ -183,27 +183,28 @@ const IssueList = () => {
             <IssueStatusCounts />
 
             <div className="row mb-4">
-                <div className="col-md-6">
-                    <form onSubmit={handleSearch} className="d-flex">
+                <div className="col-md-12">
+                    <form onSubmit={handleSearch} className="d-flex align-items-center flex-wrap">
                         <input
                             type="text"
-                            className="form-control me-2"
+                            className="form-control form-control-sm me-2"
+                            style={{ minWidth: '200px', maxWidth: '300px' }}
                             placeholder="Search issues..."
                             value={search}
                             onChange={handleSearchChange}
                         />
-                        <div className="d-flex">
-                            <button type="submit" className="btn btn-primary">
-                                <i className="bi bi-search me-2"></i>Search
+                        <div className="d-flex align-items-center">
+                            <button type="submit" className="btn btn-primary btn-sm me-2">
+                                <i className="bi bi-search me-1"></i>Search
                             </button>
-                            <button type="button" className="btn btn-success ms-3" onClick={() => navigate('/issue')}>
-                                <i className="bi bi-plus-circle me-2"></i>Create Issue
+                            <button type="button" className="btn btn-success btn-sm me-2" onClick={() => navigate('/issue')}>
+                                <i className="bi bi-plus-circle me-1"></i>Create
                             </button>
-                            <button type="button" className="btn btn-success ms-3" onClick={handleExportCSV} disabled={issues.length === 0}>
-                                <i className="bi bi-download me-2"></i>Export CSV
+                            <button type="button" className="btn btn-success btn-sm me-2" onClick={handleExportCSV} disabled={issues.length === 0}>
+                                <i className="bi bi-download me-1"></i>CSV
                             </button>
-                            <button type="button" className="btn btn-success ms-3" onClick={handleExportJSON} disabled={issues.length === 0}>
-                                <i className="bi bi-download me-2"></i>Export JSON
+                            <button type="button" className="btn btn-success btn-sm" onClick={handleExportJSON} disabled={issues.length === 0}>
+                                <i className="bi bi-download me-1"></i>JSON
                             </button>
                         </div>
                     </form>
