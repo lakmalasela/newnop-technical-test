@@ -45,7 +45,8 @@ export class IssueService {
             if (search) {
                 searchCriteria = [
                     { title: Like(`%${search}%`) },
-                    { priority: Like(`%${search}%`) }
+                    { priority: Like(`%${search}%`) },
+                    { status: Like(`%${search}%`) }
                 ];
             }
 

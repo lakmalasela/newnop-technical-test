@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { issueList, updateIssueStatus } from "../../api/issue";
 import { confirmResolveIssue, confirmCloseIssue, showSuccessAlert, showErrorAlert } from "../../common/swal-alerts";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
+import { debounce } from "../../common/utils";
 import ViewIssue from "./view-issue";
 import Layout from "../../component/layout";
 import Pagination from "../../component/pagination";
@@ -21,7 +22,7 @@ const IssueList = () => {
     const navigate = useNavigate();
 
     //Fetch issue list
-    const fetchIssueList = async (page = 1, searchQuery = '') => {
+    const fetchIssueList = useCallback(async (page = 1, searchQuery = '') => {
         setLoading(true);
         try {
             const response = await issueList(searchQuery, page, limit);
@@ -34,27 +35,37 @@ const IssueList = () => {
             }
         } catch (error) {
             console.error("Error fetching issues:", error);
-            showErrorAlert('Error', 'Failed to fetch issues', {
-                confirmButtonColor: '#00bcd4',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'OK',
-                cancelButtonText: 'Cancel'
-            });
+            showErrorAlert('Error', 'Failed to fetch issues');
         } finally {
             setLoading(false);
         }
-    };
+    }, [limit]);
 
+    // Debounced for search
+    const debouncedSearch = useCallback(
+        debounce((searchValue) => {
+            setCurrentPage(1);
+            fetchIssueList(1, searchValue);
+        }, 500),
+        [fetchIssueList]
+    );
 
     useEffect(() => {
         fetchIssueList(currentPage, search);
-    }, [currentPage, search]);
+    }, [currentPage, search, fetchIssueList]);
 
     //Search issues
     const handleSearch = (e) => {
         e.preventDefault();
         setCurrentPage(1);
         fetchIssueList(1, search);
+    };
+
+    // search for with debouncing
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearch(value);
+        debouncedSearch(value);
     };
 
     //page change
@@ -135,7 +146,7 @@ const IssueList = () => {
                             className="form-control me-2"
                             placeholder="Search issues..."
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={handleSearchChange}
                         />
                         <div className="d-flex">
                             <button type="submit" className="btn btn-primary">
