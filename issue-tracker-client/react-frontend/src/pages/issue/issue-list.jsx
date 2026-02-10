@@ -261,19 +261,18 @@ const IssueList = () => {
                                                         {issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : 'N/A'}
                                                     </td>
                                                     <td>
-                                                        <button className="btn btn-sm btn-primary" onClick={() => handleViewIssue(issue.id)}>View</button>
+                                                        <button className="btn btn-sm btn-primary me-1" onClick={() => handleViewIssue(issue.id)}>View</button>
                                                         <button 
-                                                            className="btn btn-sm btn-warning"
+                                                            className="btn btn-sm btn-warning me-1"
                                                             onClick={() => handleResolveIssue(issue.id)}
                                                             disabled={issue.status === 'Resolved'}
                                                             style={{ cursor: issue.status === 'Resolved' ? 'not-allowed' : 'pointer' }}
                                                         >Resolve</button>
-                                                        <button className="btn btn-sm btn-danger" onClick={() => handleCloseIssue(issue.id)}
+                                                        <button className="btn btn-sm btn-danger me-1" onClick={() => handleCloseIssue(issue.id)}
                                                             disabled={issue.status === 'Closed'}
                                                             style={{ cursor: issue.status === 'Closed' ? 'not-allowed' : 'pointer' }}
                                                         >Close</button>
-
-                                                    <button className="btn btn-sm btn-info" onClick={() => handleEditIssue(issue.id)}>Edit</button>
+                                                        <button className="btn btn-sm btn-info" onClick={() => handleEditIssue(issue.id)}>Edit</button>
                                                     </td>
                                                 </tr>
                                             ))
