@@ -121,6 +121,10 @@ const IssueList = () => {
         
     };
 
+    const handleEditIssue = (issueId) => {
+        navigate(`/issue/${issueId}`);
+    };
+
     // Export issues to CSV
     const handleExportCSV = () => {
         if (issues.length === 0) {
@@ -268,6 +272,8 @@ const IssueList = () => {
                                                             disabled={issue.status === 'Closed'}
                                                             style={{ cursor: issue.status === 'Closed' ? 'not-allowed' : 'pointer' }}
                                                         >Close</button>
+
+                                                    <button className="btn btn-sm btn-info" onClick={() => handleEditIssue(issue.id)}>Edit</button>
                                                     </td>
                                                 </tr>
                                             ))

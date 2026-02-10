@@ -23,6 +23,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/user-list' element={<UserList />} />
           <Route path='/issue' element={<Issue />} />
+          <Route path='/issue/:id' element={<Issue />} />
           <Route path='/issue-list' element={<IssueList />} />
         </Routes>
       </Router>
