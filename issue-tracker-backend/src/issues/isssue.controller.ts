@@ -50,9 +50,11 @@ constructor(private readonly service: IssueService) {}
   @UseGuards(JwtAuthGuard,RoleGuard)
   async findAll(@Query('search') search?: string,
   @Query('page') page?: number,
-  @Query('limit') limit?: number):Promise<BaseResponse<{ data: IssueResponse[]; total: number; page: number; limit: number; }>>{
+  @Query('limit') limit?: number,
+  @User('userId') userId?: string,
+  @User('role') userRole?: string):Promise<BaseResponse<{ data: IssueResponse[]; total: number; page: number; limit: number; }>>{
     try {
-    const result = await this.service.findAllIssues(search, Number(page) || 1, Number(limit) || 10);
+    const result = await this.service.findAllIssues(search, Number(page) || 1, Number(limit) || 10, userId, userRole);
     return new BaseResponse(true, 'Issue List', result);
   } catch (error) {
     return new BaseResponse(false, error.message);

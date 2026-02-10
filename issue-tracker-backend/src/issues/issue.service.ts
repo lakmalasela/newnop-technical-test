@@ -31,7 +31,7 @@ export class IssueService {
 
 
      //find All issues
-     async findAllIssues(search?:string,page?:number,limit?:number,sortBy?:string,sortOrder?:'ASC' | 'DESC'):Promise<{data: IssueResponse[], total: number, page: number, limit: number}> {
+     async findAllIssues(search?:string,page?:number,limit?:number,userId?:string,userRole?:string,sortBy?:string,sortOrder?:'ASC' | 'DESC'):Promise<{data: IssueResponse[], total: number, page: number, limit: number}> {
         try {
             const currentPage = page || 1;
             const currentPageSize = limit || 10;
@@ -50,8 +50,23 @@ export class IssueService {
                 ];
             }
 
+            // If user is not admin, filter by user's created issues only
+            if (userRole !== 'ADMIN' && userId) {
+                if (search) {
+                    // Combine search criteria with user filter
+                    searchCriteria = [
+                        { title: Like(`%${search}%`), user: { id: userId } },
+                        { priority: Like(`%${search}%`), user: { id: userId } },
+                        { status: Like(`%${search}%`), user: { id: userId } }
+                    ];
+                } else {
+                    searchCriteria = { user: { id: userId } };
+                }
+            }
+
             const [issues, total] = await this.Issuerepository.findAndCount({
                 where: searchCriteria,
+                relations: ['user'],
                 order: {
                     [sortField]: order
                 },
