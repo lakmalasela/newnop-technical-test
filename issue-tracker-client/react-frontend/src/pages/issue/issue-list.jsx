@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ViewIssue from "./view-issue";
 import Layout from "../../component/layout";
 import Pagination from "../../component/pagination";
+import IssueStatusCounts from "../../component/issue-status-counts";
 
 const IssueList = () => {
     const [issues, setIssues] = useState([]);
@@ -114,6 +115,14 @@ const IssueList = () => {
                     <h2>Issue List</h2>
                 </div>
             </div>
+
+                    <div className="row mb-4">
+                <div className="col-md-12">
+                    <h4>Issue Statistics</h4>
+                </div>
+            </div>
+
+            <IssueStatusCounts />
 
             <div className="row mb-4">
                 <div className="col-md-6">
