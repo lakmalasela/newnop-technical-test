@@ -20,8 +20,6 @@ const UserList = ()=>{
    const loadUser = async (page = 1) => {
     try {
       const response = await users('', page, limit);
-      console.log('API Response:', response.data);
-      console.log('Users array:', response.data.data.data);
       setUserList(response.data.data.data || []);
       setTotalPages(response.data.data.totalPages || 1);
       setTotalUsers(response.data.data.total || 0);
