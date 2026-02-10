@@ -64,12 +64,12 @@ const Dashboard = () => {
                                     <div className="card-body text-center">
                                         <div className="mb-3">
                                             <div className="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style={{ width: '60px', height: '60px' }}>
-                                                <i className="bi bi-person-fill fs-3"></i>
+                                                <i className="fas fa-user fs-3"></i>
                                             </div>
                                         </div>
                                         <h4 className="fw-bold text-dark mb-1">User Dashboard</h4>
                                         <p className="text-muted mb-0">
-                                            <i className="bi bi-envelope-fill me-2"></i>
+                                            <i className="fas fa-envelope me-2"></i>
                                             {user.email}
                                         </p>
                                     </div>
