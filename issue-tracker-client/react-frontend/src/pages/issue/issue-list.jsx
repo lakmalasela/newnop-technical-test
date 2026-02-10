@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { issueList, updateIssueStatus } from "../../api/issue";
-import { confirmResolveIssue, showSuccessAlert, showErrorAlert } from "../../common/swal-alerts";
+import { confirmResolveIssue, confirmCloseIssue, showSuccessAlert, showErrorAlert } from "../../common/swal-alerts";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
 import ViewIssue from "./view-issue";
@@ -20,6 +20,7 @@ const IssueList = () => {
 
     const navigate = useNavigate();
 
+    //Fetch issue list
     const fetchIssueList = async (page = 1, searchQuery = '') => {
         setLoading(true);
         try {
@@ -44,22 +45,26 @@ const IssueList = () => {
         }
     };
 
+
     useEffect(() => {
         fetchIssueList(currentPage, search);
     }, [currentPage, search]);
 
+    //Search issues
     const handleSearch = (e) => {
         e.preventDefault();
         setCurrentPage(1);
         fetchIssueList(1, search);
     };
 
+    //page change
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
         }
     };
 
+    // View issue
     const handleViewIssue = (issueId) => {
         const issue = issues.find(i => i.id === issueId);
         if (issue) {
@@ -68,6 +73,7 @@ const IssueList = () => {
         }
     };
 
+    // Resolve issue
     const handleResolveIssue = async (issueId) => {
         const result = await confirmResolveIssue();
 
@@ -85,8 +91,23 @@ const IssueList = () => {
         }
     };
 
-    const handleCloseIssue = (issueId) => {
-        console.log("Close issue:", issueId);
+    // Close issue  
+    const handleCloseIssue = async (issueId) => {
+        const result = await confirmCloseIssue();
+        
+            if (result.isConfirmed) {
+            try {
+                const response = await updateIssueStatus(issueId, 'Closed');
+                if (response.data) {
+                    showSuccessAlert('Success', 'Issue closed successfully');
+                    fetchIssueList(currentPage, search);
+                }
+            } catch (error) {
+                console.error("Error closing issue:", error);
+                showErrorAlert('Error', 'Failed to close issue');
+            }
+        }
+        
     };
 
     return (
@@ -181,7 +202,10 @@ const IssueList = () => {
                                                             disabled={issue.status === 'Resolved'}
                                                             style={{ cursor: issue.status === 'Resolved' ? 'not-allowed' : 'pointer' }}
                                                         >Resolve</button>
-                                                        <button className="btn btn-sm btn-danger" onClick={() => handleCloseIssue(issue.id)}>Close</button>
+                                                        <button className="btn btn-sm btn-danger" onClick={() => handleCloseIssue(issue.id)}
+                                                            disabled={issue.status === 'Closed'}
+                                                            style={{ cursor: issue.status === 'Closed' ? 'not-allowed' : 'pointer' }}
+                                                        >Close</button>
                                                     </td>
                                                 </tr>
                                             ))
