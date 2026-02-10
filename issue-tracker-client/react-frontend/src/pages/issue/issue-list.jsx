@@ -5,7 +5,7 @@ import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
 import { debounce, exportToCSV, exportToJSON } from "../../common/utils";
 import ViewIssue from "./view-issue";
-import Layout from "../../component/layout";
+import NavBar from "../../component/nav-bar";   
 import Pagination from "../../component/pagination";
 import IssueStatusCounts from "../../component/issue-status-counts";
 
@@ -166,7 +166,7 @@ const IssueList = () => {
     };
 
     return (
-        <Layout>
+        <NavBar>
         <div className="container">
             <div className="row mb-4">
                 <div className="col-md-12">
@@ -199,11 +199,11 @@ const IssueList = () => {
                             <button type="button" className="btn btn-success ms-3" onClick={() => navigate('/issue')}>
                                 <i className="bi bi-plus-circle me-2"></i>Create Issue
                             </button>
-                            <button type="button" className="btn btn-info ms-2" onClick={handleExportCSV} disabled={issues.length === 0}>
-                                <i className="bi bi-file-earmark-csv me-2"></i>Export CSV
+                            <button type="button" className="btn btn-success ms-3" onClick={handleExportCSV} disabled={issues.length === 0}>
+                                <i className="bi bi-download me-2"></i>Export CSV
                             </button>
-                            <button type="button" className="btn btn-secondary ms-2" onClick={handleExportJSON} disabled={issues.length === 0}>
-                                <i className="bi bi-file-earmark-code me-2"></i>Export JSON
+                            <button type="button" className="btn btn-success ms-3" onClick={handleExportJSON} disabled={issues.length === 0}>
+                                <i className="bi bi-download me-2"></i>Export JSON
                             </button>
                         </div>
                     </form>
@@ -311,7 +311,7 @@ const IssueList = () => {
                 }} 
             />
         </div>
-        </Layout>
+        </NavBar>
     );
 };
 

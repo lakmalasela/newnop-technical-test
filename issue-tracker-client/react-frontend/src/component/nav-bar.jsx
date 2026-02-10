@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/auth-provider";
 import { NavLink, useNavigate } from "react-router-dom";
 
-const Layout = ({ children }) => {
+const NavBar = ({ children }) => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     
@@ -53,4 +53,4 @@ const Layout = ({ children }) => {
     );
 };
 
-export default Layout;
+export default NavBar;

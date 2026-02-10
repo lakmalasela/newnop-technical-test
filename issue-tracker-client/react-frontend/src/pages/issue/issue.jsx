@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'Yup';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
-import Layout from "../../component/layout";
+import NavBar from "../../component/nav-bar";
 
 const Issue = () => {
 
@@ -13,7 +13,7 @@ const Issue = () => {
     const navigate = useNavigate();
 
     return (
-        <Layout>
+        <NavBar>
         <div className="container">
             <div className="row mb-4">
                 <div className="col-md-12">
@@ -119,7 +119,7 @@ const Issue = () => {
             </Formik>
 
         </div>
-        </Layout>
+        </NavBar>
     );
 
 

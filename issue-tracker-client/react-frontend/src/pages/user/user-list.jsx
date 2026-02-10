@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {users} from "../../api/auth";
-import Layout from "../../component/layout";
+import NavBar from "../../component/nav-bar";
 import Pagination from "../../component/pagination";
 
 const UserList = ()=>{
@@ -36,7 +36,7 @@ const UserList = ()=>{
   };
 
     return(
-        <Layout>
+        <NavBar>
             <div className="container mt-4">
                 <h2 className="mb-4">User List</h2>
                 {message && (
@@ -88,7 +88,7 @@ const UserList = ()=>{
                     itemName="users"
                 />
             </div>
-        </Layout>
+        </NavBar>
     )
 }
 

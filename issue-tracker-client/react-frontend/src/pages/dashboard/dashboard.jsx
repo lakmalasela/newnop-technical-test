@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth-provider";
-import Layout from "../../component/layout";
+import NavBar from "../../component/nav-bar";
 import IssueStatusCounts from "../../component/issue-status-counts";
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
 
     return (
-        <Layout>
+        <NavBar>
             <div className="container">
                 <div className="row mb-4">
                     <div className="col-md-12">
@@ -40,7 +40,7 @@ const Dashboard = () => {
                     </div>
                 )}
             </div>
-        </Layout>
+        </NavBar>
     );
 };
 
