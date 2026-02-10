@@ -197,7 +197,7 @@ const IssueList = () => {
                             value={search}
                             onChange={handleSearchChange}
                         />
-                        <div className="d-flex align-items-center">
+                        <div className="d-flex align-items-center mt-4">
                             <button type="submit" className="btn btn-primary btn-sm me-2">
                                 <i className="bi bi-search me-1"></i>Search
                             </button>
