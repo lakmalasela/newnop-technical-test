@@ -8,6 +8,9 @@ const NavBar = ({ children }) => {
     
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userRole');
         navigate('/login');
     }
 
@@ -25,20 +28,17 @@ const NavBar = ({ children }) => {
                                 <NavLink className="nav-link" to="/register">Register User</NavLink>
                             </li>
 
-                             <li className="nav-item">
-                                        <NavLink className="nav-link" to="/user-list">User List</NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/issue">Create Issue</NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/issue-list">Issue List</NavLink>
-                                    </li>
-                            {/* {user && (
-                                <>
-                                   
-                                </>
-                            )} */}
+                            {user && user.role === 'ADMIN' && (
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/user-list">User List</NavLink>
+                                </li>
+                            )}
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/issue">Create Issue</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/issue-list">Issue List</NavLink>
+                            </li>
                             <li className="nav-item">
                                 <button className="btn btn-outline-light btn-sm ms-2" onClick={handleLogout}>Log Out</button>
                             </li>

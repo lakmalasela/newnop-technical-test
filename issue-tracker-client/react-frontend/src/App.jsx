@@ -11,6 +11,7 @@ import IssueList from './pages/issue/issue-list'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import { AuthProvider } from './context/auth-provider'
 import Login from './pages/auth/login'
+import ProtectedRoute from './common/protected-route'
 
 function App() {
   return (
@@ -21,7 +22,11 @@ function App() {
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/user-list' element={<UserList />} />
+          <Route path='/user-list' element={
+            <ProtectedRoute requiredRole="ADMIN">
+              <UserList />
+            </ProtectedRoute>
+          } />
           <Route path='/issue' element={<Issue />} />
           <Route path='/issue/:id' element={<Issue />} />
           <Route path='/issue-list' element={<IssueList />} />

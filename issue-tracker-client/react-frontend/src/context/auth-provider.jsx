@@ -9,9 +9,10 @@ export const AuthProvider = ({children})=>{
         // Rehydrate user state from localStorage on app initialization
         const token = localStorage.getItem('token');
         const userEmail = localStorage.getItem('userEmail');
+        const userRole = localStorage.getItem('userRole');
         
         if (token && userEmail) {
-            setUser({ email: userEmail });
+            setUser({ email: userEmail, role: userRole || 'GUEST' });
         }
     }, []);
 

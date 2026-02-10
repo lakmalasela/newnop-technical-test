@@ -41,10 +41,12 @@ const Login = () => {
                         const token = res.data.access_token;
                         const userId = res.data.userId;
                         const userEmail = res.data.userEmail || value.email;
+                        const userRole = res.data.role || 'GUEST'; // Default to 'User' if role not provided
                         localStorage.setItem('token', token);
                         localStorage.setItem('userId', userId);
                         localStorage.setItem('userEmail', userEmail);
-                        setUser({ email: userEmail });
+                        localStorage.setItem('userRole', userRole);
+                        setUser({ email: userEmail, role: userRole });
                         Swal.fire({
                             icon: 'success',
                             title: 'Login Successful',
