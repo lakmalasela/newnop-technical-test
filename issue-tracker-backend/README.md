@@ -1,50 +1,258 @@
+# Issue Tracker Backend API
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A comprehensive **NestJS-based backend API** built on **Express.js** for issue tracking with JWT authentication and role-based access control (RBAC).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+- **Express.js-powered REST API** using NestJS framework
+- **JWT Authentication** with secure token-based auth
+- **Role-Based Access Control** (User/Admin roles)
+- **Issue Management** - Create, update, track, and resolve issues
+- **User Management** with admin-only access controls
+- **MySQL Database** with TypeORM integration
+- **Input Validation** and error handling
+- **CORS Support** for frontend integration
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🛠 Tech Stack
 
-## Project setup
+- **Framework**: NestJS (built on Express.js)
+- **Database**: MySQL with TypeORM
+- **Authentication**: JWT with Passport
+- **Password Hashing**: bcrypt
+- **Validation**: class-validator and class-transformer
+- **Configuration**: @nestjs/config
+- **Language**: TypeScript
 
-```bash
-$ npm install
+## 📁 Project Structure
+
+```
+src/
+├── app.module.ts          # Main application module
+├── app.controller.ts      # Root controller
+├── app.service.ts         # Root service
+├── main.ts               # Express.js application entry point
+├── auth/                 # Authentication module
+│   ├── auth.controller.ts
+│   ├── auth.module.ts
+│   ├── auth.service.ts
+│   ├── dto/
+│   └── strategies/
+├── users/                # User management module
+│   ├── users.controller.ts
+│   ├── users.module.ts
+│   ├── users.service.ts
+│   └── entities/
+├── issues/               # Issue tracking module
+│   ├── issues.controller.ts
+│   ├── issues.module.ts
+│   ├── issues.service.ts
+│   ├── dto/
+│   └── entities/
+├── common/               # Common utilities
+│   ├── guards/
+│   └── response/
+└── decorator/            # Custom decorators
 ```
 
-## Compile and run the project
+## 🔧 Environment Setup
 
-```bash
-# development
-$ npm run start
+### Prerequisites
+- Node.js (v18 or higher)
+- MySQL database
+- npm or yarn
 
-# watch mode
-$ npm run start:dev
+### Environment Variables
 
-# production mode
-$ npm run start:prod
+Create a `.env` file in the root directory:
+
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+DB_NAME=issue_tracker
+
+# Application Configuration
+PORT=3000
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_key_here
+JWT_EXPIRES_IN=24h
 ```
 
-## Run tests
+### Database Setup
+
+1. Create MySQL database:
+```sql
+CREATE DATABASE issue_tracker;
+```
+
+2. The application will automatically create tables using TypeORM synchronization.
+
+## 🚀 Installation & Running
+
+### Install Dependencies
+```bash
+npm install
+```
+
+### Development Mode
+```bash
+npm run start:dev
+```
+
+### Production Mode
+```bash
+npm run build
+npm run start:prod
+```
+
+## 📡 API Endpoints
+
+### Authentication
+
+#### POST /auth/register
+Register a new user account.
+
+**Request Body:**
+```json
+{
+  "username": "string",
+  "email": "string",
+  "password": "string",
+  "role": "user" | "admin"
+}
+```
+
+#### POST /auth/login
+Authenticate user and return JWT token.
+
+**Request Body:**
+```json
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "access_token": "jwt_token_here",
+  "user": {
+    "id": "number",
+    "username": "string",
+    "email": "string",
+    "role": "string"
+  }
+}
+```
+
+### Users
+
+#### GET /users/profile
+Get current user profile (authenticated user).
+
+**Headers:** `Authorization: Bearer <token>`
+
+#### GET /users
+Get all users (Admin only).
+
+**Headers:** `Authorization: Bearer <token>`
+
+#### PUT /users/:id
+Update user (Admin only or own profile).
+
+#### DELETE /users/:id
+Delete user (Admin only).
+
+### Issues - Core Feature
+
+#### POST /issues
+**Create new issue** (authenticated users).
+
+**Request Body:**
+```json
+{
+  "title": "string",
+  "description": "string",
+  "priority": "low" | "medium" | "high"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Issue Created",
+  "data": {
+    "id": "number",
+    "title": "string",
+    "description": "string",
+    "priority": "string",
+    "status": "open",
+    "createdBy": {
+      "id": "number",
+      "username": "string"
+    },
+    "createdAt": "datetime"
+  }
+}
+```
+
+#### GET /issues
+Get all issues with pagination and search (authenticated users).
+
+**Query Parameters:**
+- `search` (optional): Search by title or description
+- `page` (optional): Page number (default: 1)
+- `limit` (optional): Items per page (default: 10)
+
+**Headers:** `Authorization: Bearer <token>`
+
+#### GET /issues/:id
+Get issue by ID.
+
+#### PUT /issues/:id
+Update issue (Admin or assigned user).
+
+#### PATCH /issues/:id/status
+Mark issue as resolved or closed.
+
+**Request Body:**
+```json
+{
+  "status": "resolved" | "closed"
+}
+```
+
+#### DELETE /issues/:id
+Delete issue (Admin only).
+
+## 🔐 Authentication & Security
+
+### JWT Authentication
+- Users receive JWT tokens upon login
+- Tokens must be included in `Authorization: Bearer <token>` header
+- Tokens expire based on `JWT_EXPIRES_IN` configuration
+
+### Role-Based Access Control (RBAC)
+- **User**: Can view/create/update their own issues
+- **Admin**: Full access to all resources including user management
+
+### Security Features
+- Password hashing with bcrypt
+- JWT token authentication
+- Role-based access control
+- Input validation and sanitization
+- CORS configuration for frontend integration
+
+## 🧪 Testing
 
 ```bash
 # unit tests
@@ -57,42 +265,123 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+## 📊 Data Models
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+### User Entity
+```typescript
+{
+  id: number;
+  username: string;
+  email: string;
+  password: string; // hashed
+  role: 'user' | 'admin';
+  createdAt: Date;
+  updatedAt: Date;
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Issue Entity
+```typescript
+{
+  id: number;
+  title: string;
+  description: string;
+  priority: 'low' | 'medium' | 'high';
+  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  createdBy: User;
+  assignedUser: User;
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
 
-## Resources
+## 🔧 Error Handling
 
-Check out a few resources that may come in handy when working with NestJS:
+The API returns standard HTTP status codes with consistent error responses:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- `200` - Success
+- `201` - Created
+- `400` - Bad Request
+- `401` - Unauthorized
+- `403` - Forbidden
+- `404` - Not Found
+- `500` - Internal Server Error
 
-## Support
+**Error Response Format:**
+```json
+{
+  "success": false,
+  "message": "Error description",
+  "data": null
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🚀 Deployment
 
-## Stay in touch
+### Docker Deployment
+Create a `Dockerfile`:
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "run", "start:prod"]
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Production Considerations
+- Use different `.env` files for development, staging, and production
+- Configure database connections appropriately
+- Set proper JWT secrets for each environment
+- Disable database synchronization in production
+- Implement proper logging and monitoring
 
-## License
+## 🌐 CORS Configuration
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+The Express.js server is configured with CORS support for frontend integration:
+
+```typescript
+app.enableCors({
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+});
+```
+
+## 📝 Development Notes
+
+### Code Style
+- ESLint for linting
+- Prettier for code formatting
+- TypeScript for type safety
+
+### Recommended Improvements
+1. Add email verification for registration
+2. Implement password reset functionality
+3. Add rate limiting
+4. Implement audit logging
+5. Add API documentation with Swagger
+6. Set up proper database migrations
+7. Add comprehensive error logging
+8. Implement caching for frequently accessed data
+
+## 🤝 Contributing
+
+1. Follow the existing code style
+2. Write tests for new features
+3. Update documentation for API changes
+4. Use semantic versioning for releases
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🔗 Additional Resources
+
+- [NestJS Documentation](https://docs.nestjs.com)
+- [Express.js Documentation](https://expressjs.com/)
+- [TypeORM Documentation](https://typeorm.io/)
+- [JWT Authentication Guide](https://jwt.io/)
