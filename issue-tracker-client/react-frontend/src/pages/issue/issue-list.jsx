@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { issueList } from "../../api/issue";
+import { issueList, updateIssueStatus } from "../../api/issue";
 import Swal from 'sweetalert2';
 import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
@@ -67,8 +67,39 @@ const IssueList = () => {
         }
     };
 
-    const handleResolveIssue = (issueId) => {
-        console.log("Resolve issue:", issueId);
+    const handleResolveIssue = async (issueId) => {
+        const result = await Swal.fire({
+            title: 'Resolve Issue?',
+            text: 'Are you sure you want to mark this issue as resolved?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#dc3545',
+            confirmButtonText: 'Yes, resolve it!'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const response = await updateIssueStatus(issueId, 'Resolved');
+                if (response.data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Issue resolved successfully',
+                        confirmButtonColor: '#00bcd4'
+                    });
+                    fetchIssueList(currentPage, search);
+                }
+            } catch (error) {
+                console.error("Error resolving issue:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to resolve issue',
+                    confirmButtonColor: '#00bcd4'
+                });
+            }
+        }
     };
 
     const handleCloseIssue = (issueId) => {
