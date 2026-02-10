@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { issueList, updateIssueStatus } from "../../api/issue";
-import Swal from 'sweetalert2';
+import { confirmResolveIssue, showSuccessAlert, showErrorAlert } from "../../common/swal-alerts";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "../../common/badge";
 import { useNavigate } from "react-router-dom";
 import ViewIssue from "./view-issue";
@@ -33,11 +33,11 @@ const IssueList = () => {
             }
         } catch (error) {
             console.error("Error fetching issues:", error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Failed to fetch issues',
-                confirmButtonColor: '#00bcd4'
+            showErrorAlert('Error', 'Failed to fetch issues', {
+                confirmButtonColor: '#00bcd4',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel'
             });
         } finally {
             setLoading(false);
@@ -69,36 +69,18 @@ const IssueList = () => {
     };
 
     const handleResolveIssue = async (issueId) => {
-        const result = await Swal.fire({
-            title: 'Resolve Issue?',
-            text: 'Are you sure you want to mark this issue as resolved?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#dc3545',
-            confirmButtonText: 'Yes, resolve it!'
-        });
+        const result = await confirmResolveIssue();
 
         if (result.isConfirmed) {
             try {
                 const response = await updateIssueStatus(issueId, 'Resolved');
                 if (response.data) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Issue resolved successfully',
-                        confirmButtonColor: '#00bcd4'
-                    });
+                    showSuccessAlert('Success', 'Issue resolved successfully');
                     fetchIssueList(currentPage, search);
                 }
             } catch (error) {
                 console.error("Error resolving issue:", error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Failed to resolve issue',
-                    confirmButtonColor: '#00bcd4'
-                });
+                showErrorAlert('Error', 'Failed to resolve issue');
             }
         }
     };
