@@ -127,47 +127,61 @@ const IssueList = () => {
     };
 
     // Export issues to CSV
-    const handleExportCSV = () => {
-        if (issues.length === 0) {
-            showErrorAlert('No Data', 'No issues available to export');
-            return;
+    const handleExportCSV = async () => {
+        try {
+            // Fetch all issues 
+            const response = await issueList('', 1, 1000); // Fetch up to 1000 issues
+            if (response.data && response.data.data && response.data.data.data.length > 0) {
+                const allIssues = response.data.data.data;
+                const exportData = allIssues.map(issue => ({
+                    id: issue.id,
+                    title: issue.title,
+                    description: issue.description,
+                    status: issue.status,
+                    priority: issue.priority,
+                    createdAt: issue.createdAt ? new Date(issue.createdAt).toLocaleString() : 'N/A',
+                    updatedAt: issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : 'N/A'
+                }));
+                
+                const filename = `issues_export_${new Date().toISOString().split('T')[0]}`;
+                exportToCSV(exportData, filename);
+                showSuccessAlert('Success', 'All issues exported to CSV successfully');
+            } else {
+                showErrorAlert('No Data', 'No issues available to export');
+            }
+        } catch (error) {
+            console.error('Error exporting CSV:', error);
+            showErrorAlert('Error', 'Failed to export issues to CSV');
         }
-        
-        const exportData = issues.map(issue => ({
-            id: issue.id,
-            title: issue.title,
-            description: issue.description,
-            status: issue.status,
-            priority: issue.priority,
-            createdAt: issue.createdAt ? new Date(issue.createdAt).toLocaleString() : 'N/A',
-            updatedAt: issue.updatedAt ? new Date(issue.updatedAt).toLocaleString() : 'N/A'
-        }));
-        
-        const filename = `issues_export_${new Date().toISOString().split('T')[0]}`;
-        exportToCSV(exportData, filename);
-        showSuccessAlert('Success', 'Issues exported to CSV successfully');
     };
 
     // Export issues to JSON
-    const handleExportJSON = () => {
-        if (issues.length === 0) {
-            showErrorAlert('No Data', 'No issues available to export');
-            return;
+    const handleExportJSON = async () => {
+        try {
+            // Fetch all issues without pagination
+            const response = await issueList('', 1, 1000); // Fetch up to 1000 issues
+            if (response.data && response.data.data && response.data.data.data.length > 0) {
+                const allIssues = response.data.data.data;
+                const exportData = allIssues.map(issue => ({
+                    id: issue.id,
+                    title: issue.title,
+                    description: issue.description,
+                    status: issue.status,
+                    priority: issue.priority,
+                    createdAt: issue.createdAt,
+                    updatedAt: issue.updatedAt
+                }));
+                
+                const filename = `issues_export_${new Date().toISOString().split('T')[0]}`;
+                exportToJSON(exportData, filename);
+                showSuccessAlert('Success', 'All issues exported to JSON successfully');
+            } else {
+                showErrorAlert('No Data', 'No issues available to export');
+            }
+        } catch (error) {
+            console.error('Error exporting JSON:', error);
+            showErrorAlert('Error', 'Failed to export issues to JSON');
         }
-        
-        const exportData = issues.map(issue => ({
-            id: issue.id,
-            title: issue.title,
-            description: issue.description,
-            status: issue.status,
-            priority: issue.priority,
-            createdAt: issue.createdAt,
-            updatedAt: issue.updatedAt
-        }));
-        
-        const filename = `issues_export_${new Date().toISOString().split('T')[0]}`;
-        exportToJSON(exportData, filename);
-        showSuccessAlert('Success', 'Issues exported to JSON successfully');
     };
 
     return (
@@ -245,10 +259,10 @@ const IssueList = () => {
                                     <i className="bi bi-plus-circle me-1"></i>Create
                                 </button>
                                 <button type="button" className="btn btn-outline-success shadow-sm" onClick={handleExportCSV} disabled={issues.length === 0}>
-                                    <i className="bi bi-download me-1"></i>CSV
+                                    <i className="bi bi-file-earmark-spreadsheet me-1"></i>CSV
                                 </button>
                                 <button type="button" className="btn btn-outline-success shadow-sm" onClick={handleExportJSON} disabled={issues.length === 0}>
-                                    <i className="bi bi-download me-1"></i>JSON
+                                    <i className="bi bi-file-earmark-code me-1"></i>JSON
                                 </button>
                             </form>
                         </div>
