@@ -85,31 +85,43 @@ const IssueStatusCounts = () => {
     }
 
     return (
-        <div className="row">
-            <div className="col-md-4 mb-3">
-                <div className="card text-center">
-                    <div className="card-body">
-                        <i className={`bi ${getStatusIcon('Open')} text-danger fs-1 mb-2`}></i>
-                        <h5 className="card-title">Open Issues</h5>
-                        <h2 className={`text-${getStatusColor('Open')}`}>{statusCounts.Open}</h2>
+        <div className="row g-3">
+            <div className="col-md-4">
+                <div className="card border-0 shadow-sm h-100">
+                    <div className="card-body text-center">
+                        <div className="mb-3">
+                            <div className="rounded-circle bg-danger bg-opacity-10 text-danger d-inline-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px' }}>
+                                <i className={`bi ${getStatusIcon('Open')} fs-3`}></i>
+                            </div>
+                        </div>
+                        <h5 className="card-title fw-bold text-dark">Open Issues</h5>
+                        <h2 className={`text-${getStatusColor('Open')} fw-bold mb-0`}>{statusCounts.Open}</h2>
                     </div>
                 </div>
             </div>
-            <div className="col-md-4 mb-3">
-                <div className="card text-center">
-                    <div className="card-body">
-                        <i className={`bi ${getStatusIcon('In Progress')} text-warning fs-1 mb-2`}></i>
-                        <h5 className="card-title">In Progress</h5>
-                        <h2 className={`text-${getStatusColor('In Progress')}`}>{statusCounts['In Progress']}</h2>
+            <div className="col-md-4">
+                <div className="card border-0 shadow-sm h-100">
+                    <div className="card-body text-center">
+                        <div className="mb-3">
+                            <div className="rounded-circle bg-warning bg-opacity-10 text-warning d-inline-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px' }}>
+                                <i className={`bi ${getStatusIcon('In Progress')} fs-3`}></i>
+                            </div>
+                        </div>
+                        <h5 className="card-title fw-bold text-dark">In Progress</h5>
+                        <h2 className={`text-${getStatusColor('In Progress')} fw-bold mb-0`}>{statusCounts['In Progress']}</h2>
                     </div>
                 </div>
             </div>
-            <div className="col-md-4 mb-3">
-                <div className="card text-center">
-                    <div className="card-body">
-                        <i className={`bi ${getStatusIcon('Resolved')} text-success fs-1 mb-2`}></i>
-                        <h5 className="card-title">Resolved</h5>
-                        <h2 className={`text-${getStatusColor('Resolved')}`}>{statusCounts.Resolved}</h2>
+            <div className="col-md-4">
+                <div className="card border-0 shadow-sm h-100">
+                    <div className="card-body text-center">
+                        <div className="mb-3">
+                            <div className="rounded-circle bg-success bg-opacity-10 text-success d-inline-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px' }}>
+                                <i className={`bi ${getStatusIcon('Resolved')} fs-3`}></i>
+                            </div>
+                        </div>
+                        <h5 className="card-title fw-bold text-dark">Resolved</h5>
+                        <h2 className={`text-${getStatusColor('Resolved')} fw-bold mb-0`}>{statusCounts.Resolved}</h2>
                     </div>
                 </div>
             </div>
