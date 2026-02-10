@@ -129,3 +129,14 @@ export const confirmUpdateIssue = async () => {
         confirmButtonText: 'Yes, update it!'
     });
 };
+
+export const confirmLogout = async () => {
+    return await showConfirmDialog({
+        title: 'Are you sure?',
+        text: "Do you want to logout from your account?",
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, logout!'
+    });
+};

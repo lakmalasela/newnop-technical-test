@@ -1,17 +1,23 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/auth-provider";
 import { NavLink, useNavigate } from "react-router-dom";
+import { confirmLogout, showSuccessAlert } from "../common/swal-alerts";
 
 const NavBar = ({ children }) => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userRole');
-        navigate('/login');
+    const handleLogout = async () => {
+        const result = await confirmLogout();
+        if (result.isConfirmed) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            navigate('/login');
+            
+            showSuccessAlert('Logged Out!', 'You have been successfully logged out.');
+        }
     }
 
     // If user is not logged in, don't render navigation
