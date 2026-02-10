@@ -14,7 +14,7 @@ const NavBar = ({ children }) => {
         navigate('/login');
     }
 
-    // Don't render navigation if user is not logged in
+    // If user is not logged in, don't render navigation
     if (!user) {
         return (
             <div style={{paddingTop: '70px'}}>
@@ -27,7 +27,9 @@ const NavBar = ({ children }) => {
         <div className="min-vh-100">
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
                 <div className="container-fluid">
-                    <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
+                    </li>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
